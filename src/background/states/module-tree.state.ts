@@ -212,7 +212,11 @@ export class ModuleTreeState extends State {
           _collectLoadChildren(declarations)
             .map(loadChildren => this._loadChildrenToSymbolId(loadChildren))
             .map(id => ModuleIndex.get(id))
-            .forEach(d => d && result.push(d));
+            .forEach(d => {
+              //add to result array only if there is not
+              //this is because duplicities stop drawing related modules
+              if (d && result.indexOf(d) === -1) result.push(d);
+            });
           return result;
         }
       }
